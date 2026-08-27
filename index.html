@@ -36,5 +36,26 @@
   <div id="modalRoot"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="./cloud-bootstrap.js"></script>
+  <script>
+    (() => {
+      let started = false;
+      const boot = () => {
+        if (started) return;
+        try {
+          if (typeof LOS3 !== 'undefined' && LOS3 && typeof LOS3.init === 'function') {
+            started = true;
+            LOS3.init();
+            return;
+          }
+        } catch (_) {}
+        setTimeout(boot, 150);
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot, { once: true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
 </body>
 </html>
