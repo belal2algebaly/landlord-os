@@ -6,16 +6,19 @@
   <meta name="theme-color" content="#f4f1ea" />
   <title>Landlord OS</title>
   <meta name="description" content="A calm rental management operating system for small landlords." />
+  <link rel="icon" type="image/svg+xml" href="./brand-icon.svg" />
+  <link rel="apple-touch-icon" href="./brand-icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./v3.css" />
   <link rel="stylesheet" href="./cloud.css" />
+  <link rel="stylesheet" href="./product-upgrades.css" />
 </head>
 <body>
   <div class="app">
     <aside class="side">
-      <div class="brand"><div class="mark">L</div><div><strong>Landlord OS</strong><small>Rental portfolio</small></div></div>
+      <div class="brand"><div class="mark"><img src="./brand-icon.svg" alt="Landlord OS"></div><div><strong>Landlord OS</strong><small>Rental portfolio</small></div></div>
       <nav id="nav"></nav>
       <div class="side-bottom">
         <div class="mini-card"><span>Portfolio</span><strong id="portfolioCount">0 properties</strong><small>Cloud synced with Supabase</small></div>
@@ -36,6 +39,7 @@
   <div id="modalRoot"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="./cloud-bootstrap.js"></script>
+  <script src="./product-upgrades.js"></script>
   <script>
     (() => {
       let started = false;
@@ -50,11 +54,8 @@
         } catch (_) {}
         setTimeout(boot, 150);
       };
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot, { once: true });
-      } else {
-        boot();
-      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+      else boot();
     })();
   </script>
 </body>
