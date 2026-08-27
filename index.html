@@ -3,32 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#f6f2ea" />
+  <meta name="theme-color" content="#f5f2eb" />
   <title>Landlord OS</title>
   <meta name="description" content="A calm rental management tool for small landlords." />
-  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./ui/ui-01-foundation.css" />
+  <link rel="stylesheet" href="./ui/ui-02-type.css" />
+  <link rel="stylesheet" href="./ui/ui-03-navigation.css" />
+  <link rel="stylesheet" href="./ui/ui-04-summary.css" />
+  <link rel="stylesheet" href="./ui/ui-05-properties.css" />
+  <link rel="stylesheet" href="./ui/ui-06-lists.css" />
+  <link rel="stylesheet" href="./ui/ui-07-modals.css" />
+  <link rel="stylesheet" href="./ui/ui-08-responsive.css" />
+  <link rel="stylesheet" href="./ui/ui-09-accessibility.css" />
+  <link rel="stylesheet" href="./ui/ui-10-polish.css" />
 </head>
 <body>
   <div class="app-shell">
     <aside>
-      <div class="brand">
-        <div class="brand-mark">L</div>
-        <div><strong>Landlord OS</strong><small>Rental portfolio</small></div>
-      </div>
+      <div class="brand"><div class="brand-mark">L</div><div><strong>Landlord OS</strong><small>Rental portfolio</small></div></div>
       <nav id="nav"></nav>
-      <div class="aside-note"><span>Portfolio</span><strong id="portfolioCount">0 properties</strong><small>Saved in this browser</small></div>
+      <div class="aside-note"><span>Portfolio</span><strong id="portfolioCount">0 properties</strong><small>Saved securely in this browser</small><button id="exportBtn" class="export-button">Export data</button></div>
     </aside>
-
     <main>
-      <header class="topbar">
-        <div><span class="eyebrow">August 2026</span><h1 id="pageTitle">Good morning, Alex</h1></div>
-        <button class="primary" id="addPropertyBtn">＋ Add property</button>
-      </header>
+      <header class="topbar"><div><span class="eyebrow"></span><h1 id="pageTitle">Landlord OS</h1></div><button class="primary" id="addPropertyBtn">＋ Add property</button></header>
       <div id="content"></div>
     </main>
   </div>
   <div id="modalRoot"></div>
+  <script src="./src/core.js"></script>
+  <script src="./src/state.js"></script>
+  <script src="./src/actions.js"></script>
+  <script src="./src/views.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
