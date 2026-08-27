@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./v3.css" />
+  <link rel="stylesheet" href="./cloud.css" />
 </head>
 <body>
   <div class="app">
@@ -17,7 +18,7 @@
       <div class="brand"><div class="mark">L</div><div><strong>Landlord OS</strong><small>Rental portfolio</small></div></div>
       <nav id="nav"></nav>
       <div class="side-bottom">
-        <div class="mini-card"><span>Portfolio</span><strong id="portfolioCount">0 properties</strong><small>Saved locally in this browser</small></div>
+        <div class="mini-card"><span>Portfolio</span><strong id="portfolioCount">0 properties</strong><small>Cloud synced with Supabase</small></div>
         <button class="btn ghost small" id="exportBtn">Export backup</button>
         <button class="btn ghost small" id="resetBtn">Reset demo data</button>
       </div>
@@ -33,6 +34,7 @@
   </div>
   <div class="quick-menu"><button class="quick-main" id="quickMain" aria-label="Quick add">＋</button><div class="quick-options hidden" id="quickOptions"><button data-quick="property">Add property</button><button data-quick="tenant">Add tenant</button><button data-quick="payment">Record payment</button><button data-quick="expense">Add expense</button><button data-quick="maintenance">New maintenance issue</button></div></div>
   <div id="modalRoot"></div>
-  <script src="./v3.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="./cloud-bootstrap.js"></script>
 </body>
 </html>
