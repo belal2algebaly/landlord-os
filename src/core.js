@@ -1,0 +1,16 @@
+window.LOS = window.LOS || {};
+LOS.VERSION = '2.0.0';
+LOS.KEY = 'landlord-os-v2';
+LOS.today = () => new Date();
+LOS.monthKey = (d = LOS.today()) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+LOS.monthLabel = (d = LOS.today()) => d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+LOS.money = n => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number(n)||0);
+LOS.date = value => value ? new Date(`${value}T12:00:00`).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+LOS.daysUntil = value => value ? Math.ceil((new Date(`${value}T12:00:00`) - LOS.today()) / 86400000) : null;
+LOS.uid = prefix => `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2,7)}`;
+LOS.escape = value => String(value ?? '').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+LOS.safeNumber = value => Math.max(0, Number(value) || 0);
+LOS.clone = value => JSON.parse(JSON.stringify(value));
+LOS.read = (fallback) => { try { const raw=localStorage.getItem(LOS.KEY); return raw ? {...LOS.clone(fallback),...JSON.parse(raw)} : LOS.clone(fallback); } catch { return LOS.clone(fallback); } };
+LOS.write = state => localStorage.setItem(LOS.KEY, JSON.stringify(state));
+LOS.download = (name,data) => { const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),500); };
