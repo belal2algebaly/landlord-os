@@ -3,41 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#f5f2eb" />
+  <meta name="theme-color" content="#f4f1ea" />
   <title>Landlord OS</title>
-  <meta name="description" content="A calm rental management tool for small landlords." />
+  <meta name="description" content="A calm rental management operating system for small landlords." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./ui/ui-01-foundation.css" />
-  <link rel="stylesheet" href="./ui/ui-02-type.css" />
-  <link rel="stylesheet" href="./ui/ui-03-navigation.css" />
-  <link rel="stylesheet" href="./ui/ui-04-summary.css" />
-  <link rel="stylesheet" href="./ui/ui-05-properties.css" />
-  <link rel="stylesheet" href="./ui/ui-06-lists.css" />
-  <link rel="stylesheet" href="./ui/ui-07-modals.css" />
-  <link rel="stylesheet" href="./ui/ui-08-responsive.css" />
-  <link rel="stylesheet" href="./ui/ui-09-accessibility.css" />
-  <link rel="stylesheet" href="./ui/ui-10-polish.css" />
+  <link rel="stylesheet" href="./v3.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <aside>
-      <div class="brand"><div class="brand-mark">L</div><div><strong>Landlord OS</strong><small>Rental portfolio</small></div></div>
+  <div class="app">
+    <aside class="side">
+      <div class="brand"><div class="mark">L</div><div><strong>Landlord OS</strong><small>Rental portfolio</small></div></div>
       <nav id="nav"></nav>
-      <div class="aside-note"><span>Portfolio</span><strong id="portfolioCount">0 properties</strong><small>Saved securely in this browser</small><button id="exportBtn" class="export-button">Export data</button></div>
+      <div class="side-bottom">
+        <div class="mini-card"><span>Portfolio</span><strong id="portfolioCount">0 properties</strong><small>Saved locally in this browser</small></div>
+        <button class="btn ghost small" id="exportBtn">Export backup</button>
+        <button class="btn ghost small" id="resetBtn">Reset demo data</button>
+      </div>
     </aside>
     <main>
-      <header class="topbar"><div><span class="eyebrow"></span><h1 id="pageTitle">Landlord OS</h1></div><button class="primary" id="addPropertyBtn">＋ Add property</button></header>
+      <header class="top">
+        <div><span class="eyebrow"></span><h1 id="pageTitle">Landlord OS</h1></div>
+        <div class="searchbox">⌕<input id="globalSearch" placeholder="Search property or tenant"><div id="searchResults" class="search-results hidden"></div></div>
+        <div class="hero-actions"><button class="btn primary" id="addPropertyBtn">＋ Add property</button></div>
+      </header>
       <div id="content"></div>
     </main>
   </div>
+  <div class="quick-menu"><button class="quick-main" id="quickMain" aria-label="Quick add">＋</button><div class="quick-options hidden" id="quickOptions"><button data-quick="property">Add property</button><button data-quick="tenant">Add tenant</button><button data-quick="payment">Record payment</button><button data-quick="expense">Add expense</button><button data-quick="maintenance">New maintenance issue</button></div></div>
   <div id="modalRoot"></div>
-  <script src="./src/core.js"></script>
-  <script src="./src/state.js"></script>
-  <script src="./src/actions.js"></script>
-  <script src="./src/views.js"></script>
-  <script src="./app.js"></script>
+  <script src="./v3.js"></script>
 </body>
 </html>
