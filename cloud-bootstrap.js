@@ -4,7 +4,10 @@ const SUPABASE_KEY='sb_publishable_WU97Wr5dWT-cQhTIN4tfWg_FbVQdd68';
 const PROD_URL='https://landlord-os-eta.vercel.app';
 const APP_KEY='landlord-os-v3';
 const BUCKET='landlord-files';
+const DEMO_EMAIL='belal.ecom1@gmail.com';
+const EMPTY_STATE={demo:false,onboarding:true,properties:[],tenants:[],payments:[],expenses:[],documents:[],maintenance:[],dismissedAlerts:[]};
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+window.__LANDLORD_SUPABASE__=sb;
 let currentUser=null,saveTimer=null,urlToToken=new Map(),syncing=false;
 const originalSet=Storage.prototype.setItem.bind(localStorage);
 const gate=document.createElement('div');gate.className='cloud-gate';document.body.appendChild(gate);
@@ -25,6 +28,20 @@ async function syncState(raw){if(!currentUser)return;try{setSyncState(true);cons
 function patchStorage(){const native=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){native.call(this,k,v);if(this===localStorage&&k===APP_KEY&&currentUser){clearTimeout(saveTimer);saveTimer=setTimeout(()=>syncState(v),500)}}}
 function accountBadge(){const el=document.createElement('div');el.className='cloud-user';el.innerHTML=`<span class="cloud-state"></span><b>${currentUser.email||'Cloud account'}</b><button id="cloudSignOut">Sign out</button>`;document.body.appendChild(el);document.getElementById('cloudSignOut').onclick=async()=>{await sb.auth.signOut();localStorage.removeItem(APP_KEY);location.reload()}}
 function loadApp(){return new Promise((res,rej)=>{const s=document.createElement('script');s.src='./v3.js';s.onload=res;s.onerror=rej;document.body.appendChild(s)})}
-async function start(user){currentUser=user;if(!currentUser){authUI();return}loading('Syncing your cloud portfolio…');const {data,error}=await sb.from('user_portfolios').select('data').eq('user_id',currentUser.id).maybeSingle();if(error){console.error(error);gate.innerHTML='<div class="cloud-auth"><h1>Could not load your portfolio</h1><p>Please refresh and try again.</p></div>';return}if(data?.data&&Object.keys(data.data).length){const resolved=await fromCloud(data.data);originalSet(APP_KEY,JSON.stringify(resolved))}else{const raw=localStorage.getItem(APP_KEY);if(raw)await syncState(raw)}patchStorage();await loadApp();gate.remove();accountBadge();const raw=localStorage.getItem(APP_KEY);if(raw&&!data?.data)setTimeout(()=>syncState(raw),400)}
+async function start(user){
+  currentUser=user;window.__LANDLORD_USER__=user;
+  if(!currentUser){authUI();return}
+  loading('Syncing your cloud portfolio…');
+  const {data,error}=await sb.from('user_portfolios').select('data').eq('user_id',currentUser.id).maybeSingle();
+  if(error){console.error(error);gate.innerHTML='<div class="cloud-auth"><h1>Could not load your portfolio</h1><p>Please refresh and try again.</p></div>';return}
+  const hasCloud=!!(data?.data&&Object.keys(data.data).length);
+  if(hasCloud){const resolved=await fromCloud(data.data);originalSet(APP_KEY,JSON.stringify(resolved))}
+  else if((currentUser.email||'').toLowerCase()!==DEMO_EMAIL){originalSet(APP_KEY,JSON.stringify(EMPTY_STATE))}
+  patchStorage();
+  await loadApp();
+  gate.remove();
+  accountBadge();
+  const raw=localStorage.getItem(APP_KEY);if(raw&&!hasCloud)setTimeout(()=>syncState(raw),400)
+}
 (async()=>{loading('Connecting securely…');const {data:{session}}=await sb.auth.getSession();if(session?.user)await start(session.user);else authUI();sb.auth.onAuthStateChange(async(event,session)=>{if(event==='SIGNED_IN'&&session?.user&&!currentUser)await start(session.user)})})();
 })();
