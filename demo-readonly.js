@@ -1,0 +1,9 @@
+(()=>{
+const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];
+const readonly=()=>!!window.__LANDLORD_READONLY__;
+function toast(){if(q('.demo-lock-toast'))return;const e=document.createElement('div');e.className='demo-lock-toast';e.innerHTML='<strong>Read-only demo</strong><span>Sign in and activate Landlord OS to add or edit data.</span>';document.body.appendChild(e);setTimeout(()=>e.remove(),2400)}
+function isWrite(el){if(!el)return false;const id=(el.id||'').toLowerCase(),text=(el.textContent||'').trim();if(/addproperty|addtenant|recordpayment|addexpense|uploaddoc|addmaintenance|quickmain|resetbtn|dismissonboard/.test(id))return true;if(el.matches('[data-quick]'))return true;if(el.matches('[data-alert-action]')&&!/^(view|open)/i.test(text))return true;if(el.matches('[data-intel-action]'))return true;if(/^(\+|add\b|record\b|upload\b|new\b|edit\b|delete\b|save\b|reset\b|dismiss\b|hide guide\b|mark paid\b|revoke\b|generate\b)/i.test(text))return true;if(el.type==='submit')return true;return false}
+function guard(e){if(!readonly())return;const el=e.target.closest('button,input[type="submit"],a,[data-quick],[data-alert-action],[data-intel-action]');if(!el||!isWrite(el))return;e.preventDefault();e.stopImmediatePropagation();toast()}
+function decorate(){if(!readonly())return;document.body.classList.add('demo-readonly');qa('button,input[type="submit"]').forEach(el=>{if(isWrite(el)){el.setAttribute('aria-disabled','true');el.dataset.demoLocked='1'}})}
+document.addEventListener('click',guard,true);document.addEventListener('submit',e=>{if(!readonly())return;const form=e.target;if(form.closest('.mobile-search-sheet'))return;e.preventDefault();e.stopImmediatePropagation();toast()},true);new MutationObserver(()=>requestAnimationFrame(decorate)).observe(document.documentElement,{childList:true,subtree:true});window.addEventListener('landlord:demo-ready',decorate);setTimeout(decorate,500);
+})();
